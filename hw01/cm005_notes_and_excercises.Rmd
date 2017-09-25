@@ -1,0 +1,122 @@
+---
+title: "cm005_notes_and_excercises"
+output: html_document
+---
+library(tidyverse)
+library(gapminder)
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+typeof(typeof(15.2))
+```
+```{r}
+
+filter(gapminder, (country=="Canada") |(country == "Algeria" & year>=1969 & year <= 1960))
+filter(gapminder, (country=="Canada") |(country == "Algeria" & year>=1969 & year <= 1960))
+```
+
+```{r}
+arrange(gapminder, year, desc(lifeExp))
+```
+
+```{r}
+mutate(gapminder, gdp = gdpPercap * pop)
+```
+```{r}
+summarize(gapminder, mean_pop=mean(pop), sd_pop=sd(pop))
+```
+
+
+```{r}
+gapminder %>% 
+    group_by(country) %>% 
+    summarize(mean_pop=mean(pop), sd_pop=sd(pop))
+```
+```{r}
+summary(gapminder)
+```
+Exercise: Find the minimum GDP per capita experienced by each country
+```{r}
+gapminder %>%
+  group_by(country) %>%
+  summarise (mingdp = min(gdpPercap))
+```
+Exercise: How many years of record does each country have?
+```{r}
+gapminder %>%
+  group_by(country) %>%
+  summarise (nyears)
+```
+```{r}
+gapminder %>%
+  group_by(country) %>%
+  summarise (n_distinct(year))
+```
+Exercise: Within Asia, what are the min and max life expectancies experienced in each year?
+```{r}
+gapminder %>%
+  filter(continent== "Asia") %>%
+  group_by(year) %>%
+  summarise (minexp = min(lifeExp),
+             maxexp = max(lifeExp))
+```
+
+Quick ways: - plot(gapminder$year, gapminder$lifeExp) - base R - qplot(year, lifeExp, data=gapminder) -  ggplot2's "quick plot".
+
+```{r}
+ggplot(gapminder, aes(x=year, y=lifeExp)) 
+```
+```{r}
+p <- ggplot(gapminder, aes(x=year, y=lifeExp))
+p
+```
+
+p+geom_point(alpha = 0.25), Alpha on everything on the plot should be 0.25 transparency
+
+```{r}
+p+geom_point(alpha = 0.25)
+```
+
+```{r}
+p + geom_point(aes(alpha = 0.25))
+p
+```
+
+p <- ggplot(gapminder, aes(x=year, y=lifeExp))
+Exercises:
+
+Make a scatterplot of gdpPercap vs lifeExp. Store it in a variable called p2.
+```{r}
+p2 <- ggplot(gapminder, aes(x=gdpPercap, y=lifeExp))+
+    geom_point()
+p2
+```
+
+
+To p2, make the size of the points indicate the year, choose a level of alpha transparency that you're happy with, and make the points your favourite colour.
+```{r}
+p2 + geom_point(aes(size = year),alpha =0.1,colour = "blue")
+```
+
+
+To p2, colour the points by continent. but this time with year being represented by the size of the points.
+```{r}
+p2 + geom_point(aes(size = year),alpha =0.1,colour = "blue")
+```
+
+
+To p2, add another layer called scale_x_log10(). Make a second plot by redoing the plot in (1), but replacing gdpPercap with log10(gdpPercap). What do you notice?
+```{r}
+
+```
+

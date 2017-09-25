@@ -1,0 +1,49 @@
+---
+title: "hw01_gapminder.Rmd"
+output: github_document
+---
+###Steps followed to explore gapminder are : 
+
+###First install the packages and load the libraries : tidyverse and gapminder
+```{r}
+library(tidyverse)
+library(gapminder)
+
+```
+
+###Format,such as: head,tail, details are included using the below :
+```{r}
+gapminder
+head(gapminder)
+tail(gapminder)
+```
+
+###Sample plot :
+```{r}
+plot(lifeExp ~ year, gapminder)
+```
+
+###Sample List :
+```{r}
+list(5,c(1,2,3),"hello")
+```
+
+###An example to filter out variables(Ex : Country) in gapminder :
+```{r}
+gapminder$country
+```
+
+###How to create a Unit Matrix of order 5x5 :
+```{r}
+diag(5)
+```
+
+###Few Basic R functions : 
+```{r}
+str(gapminder)
+summary(gapminder)
+glimpse(gapminder)
+```
+
+
+

@@ -1,0 +1,60 @@
+---
+title: "https://github.com/jmurthy12/STAT545-hw02-murthy-janani"
+output: github_document
+---
+Bring rectangular data in
+
+
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+
+Smell test the data
+Explore the gapminder object:
+
+1)Is it a data.frame, a matrix, a vector, a list?
+Answer : Gapminder object is a data frame .
+
+```{r}
+gapminder
+```
+2)What’s its class?
+Answer  : Class is Tibble.
+```{r}
+class(gapminder)
+```
+
+
+3)How many variables/columns?
+There are 6 variables/coulmns .
+The Variables are : country,continent,year,lifeExp,pop,gdpPercap
+```{r}
+gapminder
+```
+
+4)How many rows/observations?
+Answer : There are 1,1704 rows/observartions
+
+5)Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?
+```{r}
+dim(gapminder)
+nrow(gapminder)
+ncol(gapminder)
+length(gapminder$country)
+```
+
+6)What data type is each variable?
+```{r}
+class(gapminder$country)
+class(gapminder$continent)
+class(gapminder$year)
+class(gapminder$lifeExp)
+class(gapminder$pop)
+class(gapminder$gdpPercap)
+```
+
+
+
+
+
