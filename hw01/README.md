@@ -3,7 +3,7 @@ Hello ,I'm **Janani Murthy**,doing my Masters in Electrical an Computer Engineer
 
 That's me!
 
-![That's me!](https://github.com/jmurthy12/STAT545-hw01-murthy-janani/blob/master/Janani_Murthy.jpg)
+![That's me!](https://github.com/jmurthy12/STAT545-hw02-murthy-janani/blob/master/hw01/Janani_Murthy.jpg)
 
 Steps that I followed to edit the *README.md* were :
 1. Create a new repo on GitHub
@@ -15,7 +15,7 @@ Steps that I followed to edit the *README.md* were :
 
 This is my first experience with Github and R Markdown.The hands-on experience provided by this [course](https://github.com/STAT545-UBC) makes it easier to understand. I'm really excited to explore further on these topics. 
 
-This is my [R markdown document](https://github.com/jmurthy12/STAT545-hw01-murthy-janani/blob/master/hw01_gapminder.md) and my [Rendered Markdown File](https://github.com/jmurthy12/STAT545-hw01-murthy-janani/blob/master/hw01_gapminder.md)
+This is my [R markdown document](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw01/hw01_gapminder.Rmd) and my [Rendered Markdown File](https://github.com/jmurthy12/STAT545-hw02-murthy-janani/blob/master/hw01/hw01_gapminder.md)
 
 
 > "Peace begins with a smile"
