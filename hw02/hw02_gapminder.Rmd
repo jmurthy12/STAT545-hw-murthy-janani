@@ -10,21 +10,28 @@ library(gapminder)
 library(tidyverse)
 ```
 
-Smell test the data
+###Smell test the data
 Explore the gapminder object:
 
 1)Is it a data.frame, a matrix, a vector, a list?
+
 Answer : Gapminder object is a data frame .
 
 ```{r}
 gapminder
 ```
-2)What’s its class?
+2)What's its class?
+
 Answer  : Class is Tibble.
 ```{r}
 class(gapminder)
 ```
 
+OR 
+An alternative way is to find the number of rows and columns is mentioned below :
+```{r}
+str(gapminder)
+```
 
 3)How many variables/columns?
 There are 6 variables/coulmns .
@@ -36,7 +43,9 @@ gapminder
 4)How many rows/observations?
 Answer : There are 1,1704 rows/observartions
 
-5)Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?
+
+
+5)Can you get these facts about "extent" or "size" in more than one way? Can you imagine different functions being useful in different contexts?
 ```{r}
 dim(gapminder)
 nrow(gapminder)
@@ -53,6 +62,65 @@ class(gapminder$lifeExp)
 class(gapminder$pop)
 class(gapminder$gdpPercap)
 ```
+
+
+###Explore individual variables : 
+
+1)Pick at least one categorical variable and at least one quantitative variable to explore.
+
+Answer : We extract the continent variable as an example for a categorical variable and the lifeExp as continuous variable
+ContinentVar <- gapminder$continent
+lifeExpVar <- gapminder$lifeExp
+```{r}
+ContinentVar <- gapminder$continent
+lifeExpVar <- gapminder$lifeExp
+```
+
+
+
+2)What are possible values (or range, whichever is appropriate) of each variable?
+continentTable <- table(ContinentVar)
+    What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+    Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
+    
+    
+```{r}
+continentTable <- table(ContinentVar)
+continentTable
+hist(continentTable)
+range(lifeExpVar)
+mean(lifeExpVar)
+sd(lifeExpVar)
+
+```
+```{r}
+gap_with_colors <-
+data.frame(gapminder,
+cc = I(country_colors[match(gapminder$country,
+names(country_colors))]))
+```
+
+
+##Explore various plot types
+
+See the ggplot2 tutorial, which also uses the gapminder data, for ideas.
+
+Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
+
+    A scatterplot of two quantitative variables.
+    A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
+    A plot of one quantitative variable and one categorical. Maybe boxplots for several continents or countries.
+
+
+```{r}
+library(gapminder)
+library("ggplot2")
+ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
+  geom_point()
+ggplot(gapminder, aes(x = ))
+
+```
+
 
 
 
