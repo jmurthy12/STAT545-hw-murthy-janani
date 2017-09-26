@@ -2,29 +2,33 @@
 title: "https://github.com/jmurthy12/STAT545-hw02-murthy-janani"
 output: github_document
 ---
-Bring rectangular data in
-
+# Exploring Gapminder!
+### Bring rectangular data in
 
 ```{r}
 library(gapminder)
 library(tidyverse)
 ```
 
+
 ###Smell test the data
 Explore the gapminder object:
 
 1)Is it a data.frame, a matrix, a vector, a list?
 
-Answer : Gapminder object is a data frame .
+Answer : List.Gapminder is a dataframe and a List.
 
 ```{r}
-gapminder
+is.data.frame(gapminder)
+is.list(gapminder)
 ```
+
 2)What's its class?
 
-Answer  : Class is Tibble.
+Answer  : Class is dataframe and also a tibble.
 ```{r}
 class(gapminder)
+gapminder
 ```
 
 OR 
@@ -34,23 +38,29 @@ str(gapminder)
 ```
 
 3)How many variables/columns?
-There are 6 variables/coulmns .
-The Variables are : country,continent,year,lifeExp,pop,gdpPercap
+
+Answer :There are 6 variables/coulmns .
+The Variables are : country,continent,year,lifeExp,pop and gdpPercap
 ```{r}
 gapminder
 ```
 
 4)How many rows/observations?
+
 Answer : There are 1,1704 rows/observartions
 
 
 
 5)Can you get these facts about "extent" or "size" in more than one way? Can you imagine different functions being useful in different contexts?
+
+Answer :  Various methods/functions to find the "extent" or "size" are described below :
+
 ```{r}
 dim(gapminder)
 nrow(gapminder)
 ncol(gapminder)
-length(gapminder$country)
+head(gapminder) #gives the number of columns and data tyoes for each column
+length(gapminder) # gives the number of columns
 ```
 
 6)What data type is each variable?
@@ -63,14 +73,25 @@ class(gapminder$pop)
 class(gapminder$gdpPercap)
 ```
 
+OR, alternatively we could use the str()command
+
+```{r}
+str(gapminder) # gives the consolidated data type for each variable/column.
+```
+
+```{r}
+summary(gapminder)
+```
+
 
 ###Explore individual variables : 
 
 1)Pick at least one categorical variable and at least one quantitative variable to explore.
 
-Answer : We extract the continent variable as an example for a categorical variable and the lifeExp as continuous variable
-ContinentVar <- gapminder$continent
-lifeExpVar <- gapminder$lifeExp
+Answer :
+Categorical variable : continent  
+Quantitative variable : life expectancy(lifeExp)
+
 ```{r}
 ContinentVar <- gapminder$continent
 lifeExpVar <- gapminder$lifeExp
@@ -79,7 +100,6 @@ lifeExpVar <- gapminder$lifeExp
 
 
 2)What are possible values (or range, whichever is appropriate) of each variable?
-continentTable <- table(ContinentVar)
     What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
     Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
     
@@ -87,12 +107,15 @@ continentTable <- table(ContinentVar)
 ```{r}
 continentTable <- table(ContinentVar)
 continentTable
-hist(continentTable)
+hist(continentTable) #Distribution of Continent (Similar to frequency distribution)
 range(lifeExpVar)
+hist(lifeExpVar) #Distribution of ife Expectency
 mean(lifeExpVar)
 sd(lifeExpVar)
 
 ```
+Needs further exploring!
+
 ```{r}
 gap_with_colors <-
 data.frame(gapminder,
@@ -113,11 +136,12 @@ Make a few plots, probably of the same variable you chose to characterize numeri
 
 
 ```{r}
-library(gapminder)
 library("ggplot2")
+plot(lifeExp~continent,data = gapminder, xlab= "Continent",ylab = "Life Expectency")
 ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
-ggplot(gapminder, aes(x = ))
+ggplot(gapminder, aes(x =lifeExp, y = year))+
+  geom_point()
 
 ```
 
