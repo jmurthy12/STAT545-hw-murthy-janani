@@ -72,7 +72,9 @@ gapminder
     ## 10 Afghanistan      Asia  1997  41.763 22227415  635.3414
     ## # ... with 1,694 more rows
 
-OR An alternative way is to find the number of rows and columns is mentioned below :
+OR
+
+An alternative way is to find the number of rows and columns is mentioned below :
 
 ``` r
 str(gapminder)
@@ -193,7 +195,9 @@ class(gapminder$gdpPercap)
 
     ## [1] "numeric"
 
-OR, alternatively we could use the str()command
+OR,
+
+alternatively we could use the str() command
 
 ``` r
 str(gapminder) # gives the consolidated data type for each variable/column.
@@ -298,6 +302,15 @@ See the ggplot2 tutorial, which also uses the gapminder data, for ideas.
 Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
 
     A scatterplot of two quantitative variables.
+
+``` r
+ggplot(gapminder, 
+      aes(x=year, y=pop)) +
+      geom_point(size = 4, color = "indianred4")
+```
+
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
+
     A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
     A plot of one quantitative variable and one categorical. Maybe boxplots for several continents or countries.
 
@@ -306,18 +319,18 @@ library("ggplot2")
 plot(lifeExp~continent,data = gapminder, xlab= "Continent",ylab = "Life Expectency")
 ```
 
-![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
 
 ``` r
 ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-2.png)
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-2.png)
 
 ``` r
 ggplot(gapminder, aes(x =lifeExp, y = year))+
   geom_point()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-3.png)
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-3.png)
