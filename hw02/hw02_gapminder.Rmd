@@ -34,7 +34,7 @@ gapminder
 
 OR 
 
-An alternative way is to find the number of rows and columns is mentioned below :
+An alternative way is to find the number of rows and columns as mentioned below :
 ```{r}
 str(gapminder)
 ```
@@ -61,7 +61,7 @@ Answer :  Various methods/functions to find the "extent" or "size" are described
 dim(gapminder)
 nrow(gapminder)
 ncol(gapminder)
-head(gapminder) #gives the number of columns and data tyoes for each column
+head(gapminder) #gives the number of columns and data types for each column
 length(gapminder) # gives the number of columns
 ```
 
@@ -97,8 +97,8 @@ Categorical variable : continent
 Quantitative variable : life expectancy(lifeExp)
 
 ```{r}
-ContinentVar <- gapminder$continent
-lifeExpVar <- gapminder$lifeExp
+ContinentVariable <- gapminder$continent
+lifeExpVariable <- gapminder$lifeExp
 ```
 
 
@@ -109,13 +109,13 @@ lifeExpVar <- gapminder$lifeExp
     
     
 ```{r}
-continentTable <- table(ContinentVar)
+continentTable <- table(ContinentVariable)
 continentTable
 hist(continentTable) #Distribution of Continent (Similar to frequency distribution)
-range(lifeExpVar)
-hist(lifeExpVar) #Distribution of ife Expectency
-mean(lifeExpVar)
-sd(lifeExpVar)
+range(lifeExpVariable) # Range of Life Expectancy
+hist(lifeExpVariable) #Distribution of ife Expectency
+mean(lifeExpVariable) # Mean/Average of ife Expectancy
+sd(lifeExpVariable) # Standard Deviation of Life Expectancy
 
 ```
 
@@ -139,9 +139,14 @@ unique(gapminder$continent) #gives the distinct countries within continent Varia
 
 See the ggplot2 tutorial, which also uses the gapminder data, for ideas.
 
-### Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
+##### Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
 
    A scatterplot of two quantitative variables.
+   
+   
+   Quantitative variable 1 : Life Expectancy 
+   
+   Quantitative variable 2 : Population
     
 ```{r}
 ggplot(gapminder, 
@@ -152,6 +157,7 @@ ggplot(gapminder,
     A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
     
     Densityplot of  quantitative variable: LifeExpectancy
+    
 ```{r}
 ggplot(gapminder, aes(x=lifeExp)) + geom_density()
 ```
@@ -159,7 +165,7 @@ ggplot(gapminder, aes(x=lifeExp)) + geom_density()
 A plot of one quantitative variable and one categorical
 
 
-Answer :Box plot of quantitative variable : LifeExpectancy vs categorical variable  : Continent
+Answer :  Box plot of quantitative variable : LifeExpectancy vs categorical variable  : Continent
 
 ```{r}
 ggplot(gapminder,
@@ -167,21 +173,20 @@ ggplot(gapminder,
       geom_boxplot(colour = "azure4", fill = "cyan", alpha = 0.5)
 ```
 
-    . Maybe boxplots for several continents or countries.
+     Maybe boxplots for several continents or countries.
 
 
 ```{r}
-NAmericas <- filter(gapminder, country %in% c("Canada", "Mexico", "United States"))
-ggplot(NAmericas,
-      aes(x=country, y=pop)) +
-      geom_boxplot(colour = "burlywood4", fill = "cadetblue", alpha = 0.5) + #making pretty graphs via fill, line and transparency customization
-      ggtitle("North America's populations by countries - Gapminder dataset") +
-      labs(x = "Country", y = "Population")
+
+ggplot(gapminder,
+      aes(x=continent, y=lifeExp)) +
+      geom_boxplot(colour = "blue2", fill = "bisque2", alpha = 0.5) +
+      ggtitle("Continents") +
+      labs(x = "Country", y = "Lifeexpectancy")
 ```
 
 ```{r}
-library("ggplot2")
-plot(lifeExp~continent,data = gapminder, xlab= "Continent",ylab = "Life Expectency")
+
 ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ggplot(gapminder, aes(x =lifeExp, y = year))+
@@ -194,6 +199,14 @@ Use filter(), select() and %>%
 Use filter() to create data subsets that you want to plot.
 
 Practice piping together filter() and select(). Possibly even piping into ggplot().
+
+
+Answer : 
+All the above functionaities mentioned above are excuted in the chunk below.
+
+
+Scatter Plot describing the LifeExpectency by year for each country within the Asian Continent.
+
 ```{r}
 gapminder %>%
   filter(continent=="Asia") %>% 
@@ -203,15 +216,47 @@ gapminder %>%
 ```
 
 
-### But I want to do more! (TBD)
+### But I want to do more! 
 For people who want to take things further.
 
 Evaluate this code and describe the result. Presumably the analyst’s intent was to get the data for Rwanda and Afghanistan. Did they succeed? Why or why not? If not, what is the correct way to do this?
 
+ 
+```{r}
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
-Read What I do when I get a new data set as told through tweets from SimplyStatistics to get some ideas!
+```
+
+##### Similar excercise was done in class cm006 and the explaination was provided in the same class.
+
+
+Explaination :The above chunk only displays countries(afghanistan and Rwanda)/rows for which the year value/columns are unique.
+Repetitions are omitted.Hence it displays 12 rows only instead of 24 rows.
+
+Solution : To display all the data for country Rwanda nd Afghanistan, use the below :
+
+```{r}
+filter(gapminder, country == "Rwanda" | country == "Afghanistan") # As discussed in class cm006
+```
+
+OR
+
+```{r}
+
+gapminder %>%
+  filter(country %in% c("Rwanda", "Afghanistan"))  # As discussed in class cm006
+```
+
+
 
 Present numerical tables in a more attractive form, such as using knitr::kable().
+
+Presenting the above example using knitr::kable() 
+
+```{r}
+knitr::kable(filter(gapminder, country == "Rwanda" | country == "Afghanistan"))
+
+```
+
 
 
 

@@ -24,3 +24,5 @@ Creating a markdown file was quite easy!
 I did refer to [class notes](http://stat545.com/cm006_tibbles-dplyr-ggplot2.htmls)for ggplot and dplyr functions.
 
 This [link](https://cran.r-project.org/web/packages/gapminder/gapminder.pdf) helped in discovering colors for different countries as well as the syntax to be used in ggplot.
+
+The Help tab/?help was very useful in exploring different function within R.

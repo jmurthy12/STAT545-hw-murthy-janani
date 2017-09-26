@@ -43,6 +43,12 @@ is.list(gapminder)
 
     ## [1] TRUE
 
+``` r
+typeof(gapminder)
+```
+
+    ## [1] "list"
+
 2)What's its class?
 
 Answer : Class is dataframe and also a tibble.
@@ -74,7 +80,7 @@ gapminder
 
 OR
 
-An alternative way is to find the number of rows and columns is mentioned below :
+An alternative way is to find the number of rows and columns as mentioned below :
 
 ``` r
 str(gapminder)
@@ -138,7 +144,7 @@ ncol(gapminder)
     ## [1] 6
 
 ``` r
-head(gapminder) #gives the number of columns and data tyoes for each column
+head(gapminder) #gives the number of columns and data types for each column
 ```
 
     ## # A tibble: 6 x 6
@@ -240,18 +246,18 @@ Answer : Categorical variable : continent
 Quantitative variable : life expectancy(lifeExp)
 
 ``` r
-ContinentVar <- gapminder$continent
-lifeExpVar <- gapminder$lifeExp
+ContinentVariable <- gapminder$continent
+lifeExpVariable <- gapminder$lifeExp
 ```
 
 2)What are possible values (or range, whichever is appropriate) of each variable? What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand. Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
 
 ``` r
-continentTable <- table(ContinentVar)
+continentTable <- table(ContinentVariable)
 continentTable
 ```
 
-    ## ContinentVar
+    ## ContinentVariable
     ##   Africa Americas     Asia   Europe  Oceania 
     ##      624      300      396      360       24
 
@@ -262,75 +268,253 @@ hist(continentTable) #Distribution of Continent (Similar to frequency distributi
 ![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-1.png)
 
 ``` r
-range(lifeExpVar)
+range(lifeExpVariable) # Range of Life Expectancy
 ```
 
     ## [1] 23.599 82.603
 
 ``` r
-hist(lifeExpVar) #Distribution of ife Expectency
+hist(lifeExpVariable) #Distribution of ife Expectency
 ```
 
 ![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-11-2.png)
 
 ``` r
-mean(lifeExpVar)
+mean(lifeExpVariable) # Mean/Average of ife Expectancy
 ```
 
     ## [1] 59.47444
 
 ``` r
-sd(lifeExpVar)
+sd(lifeExpVariable) # Standard Deviation of Life Expectancy
 ```
 
     ## [1] 12.91711
 
-Needs further exploring!
+Exploring continents and Life expectancy
 
 ``` r
-gap_with_colors <-
-data.frame(gapminder,
-cc = I(country_colors[match(gapminder$country,
-names(country_colors))]))
+    gapminder %>%
+      filter(continent== "Asia") %>%
+      group_by(year) %>%
+      summarise (minexp = min(lifeExp),
+             maxexp = max(lifeExp)) # displays the minimum and maximum Life expectancy
 ```
+
+    ## # A tibble: 12 x 3
+    ##     year minexp maxexp
+    ##    <int>  <dbl>  <dbl>
+    ##  1  1952 28.801 65.390
+    ##  2  1957 30.332 67.840
+    ##  3  1962 31.997 69.390
+    ##  4  1967 34.020 71.430
+    ##  5  1972 36.088 73.420
+    ##  6  1977 31.220 75.380
+    ##  7  1982 39.854 77.110
+    ##  8  1987 40.822 78.670
+    ##  9  1992 41.674 79.360
+    ## 10  1997 41.763 80.690
+    ## 11  2002 42.129 82.000
+    ## 12  2007 43.828 82.603
+
+``` r
+unique(gapminder$continent) #gives the distinct countries within continent Variable set
+```
+
+    ## [1] Asia     Europe   Africa   Americas Oceania 
+    ## Levels: Africa Americas Asia Europe Oceania
 
 Explore various plot types
 --------------------------
 
 See the ggplot2 tutorial, which also uses the gapminder data, for ideas.
 
-Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
+##### Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
 
-    A scatterplot of two quantitative variables.
+A scatterplot of two quantitative variables.
+
+Quantitative variable 1 : Life Expectancy
+
+Quantitative variable 2 : Population
 
 ``` r
 ggplot(gapminder, 
-      aes(x=year, y=pop)) +
-      geom_point(size = 4, color = "indianred4")
-```
-
-![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-13-1.png)
-
-    A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
-    A plot of one quantitative variable and one categorical. Maybe boxplots for several continents or countries.
-
-``` r
-library("ggplot2")
-plot(lifeExp~continent,data = gapminder, xlab= "Continent",ylab = "Life Expectency")
+      aes(x=lifeExp, y=pop)) +
+      geom_point(size = 2, color = "indianred4")
 ```
 
 ![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-1.png)
+
+    A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
+
+    Densityplot of  quantitative variable: LifeExpectancy
+
+``` r
+ggplot(gapminder, aes(x=lifeExp)) + geom_density()
+```
+
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-15-1.png)
+
+A plot of one quantitative variable and one categorical
+
+Answer : Box plot of quantitative variable : LifeExpectancy vs categorical variable : Continent
+
+``` r
+ggplot(gapminder,
+      aes(x = continent, y = lifeExp)) +
+      geom_boxplot(colour = "azure4", fill = "cyan", alpha = 0.5)
+```
+
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
+
+     Maybe boxplots for several continents or countries.
+
+``` r
+ggplot(gapminder,
+      aes(x=continent, y=lifeExp)) +
+      geom_boxplot(colour = "blue2", fill = "bisque2", alpha = 0.5) +
+      ggtitle("Continents") +
+      labs(x = "Country", y = "Lifeexpectancy")
+```
+
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-17-1.png)
 
 ``` r
 ggplot(gapminder, aes(x = lifeExp, y = gdpPercap)) +
   geom_point()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-2.png)
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-1.png)
 
 ``` r
 ggplot(gapminder, aes(x =lifeExp, y = year))+
   geom_point()
 ```
 
-![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-14-3.png)
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-18-2.png)
+
+Use filter(), select() and %&gt;% Use filter() to create data subsets that you want to plot.
+
+Practice piping together filter() and select(). Possibly even piping into ggplot().
+
+Answer : All the above functionaities mentioned above are excuted in the chunk below.
+
+Scatter Plot describing the LifeExpectency by year for each country within the Asian Continent.
+
+``` r
+gapminder %>%
+  filter(continent=="Asia") %>% 
+  select(country, year, lifeExp) %>% 
+  ggplot(aes(x=year, y=lifeExp)) %>% 
+  + geom_point(aes(color=country))
+```
+
+![](hw02_gapminder_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-19-1.png)
+
+### But I want to do more!
+
+For people who want to take things further.
+
+Evaluate this code and describe the result. Presumably the analyst’s intent was to get the data for Rwanda and Afghanistan. Did they succeed? Why or why not? If not, what is the correct way to do this?
+
+``` r
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+
+    ## # A tibble: 12 x 6
+    ##        country continent  year lifeExp      pop gdpPercap
+    ##         <fctr>    <fctr> <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan      Asia  1957  30.332  9240934  820.8530
+    ##  2 Afghanistan      Asia  1967  34.020 11537966  836.1971
+    ##  3 Afghanistan      Asia  1977  38.438 14880372  786.1134
+    ##  4 Afghanistan      Asia  1987  40.822 13867957  852.3959
+    ##  5 Afghanistan      Asia  1997  41.763 22227415  635.3414
+    ##  6 Afghanistan      Asia  2007  43.828 31889923  974.5803
+    ##  7      Rwanda    Africa  1952  40.000  2534927  493.3239
+    ##  8      Rwanda    Africa  1962  43.000  3051242  597.4731
+    ##  9      Rwanda    Africa  1972  44.600  3992121  590.5807
+    ## 10      Rwanda    Africa  1982  46.218  5507565  881.5706
+    ## 11      Rwanda    Africa  1992  23.599  7290203  737.0686
+    ## 12      Rwanda    Africa  2002  43.413  7852401  785.6538
+
+##### Similar excercise was done in class cm006 and the explaination was provided in the same class.
+
+Explaination :The above chunk only displays countries(afghanistan and Rwanda)/rows for which the year value/columns are unique. Repetitions are omitted.Hence it displays 12 rows only instead of 24 rows.
+
+Solution : To display all the data for country Rwanda nd Afghanistan, use the below :
+
+``` r
+filter(gapminder, country == "Rwanda" | country == "Afghanistan") # As discussed in class cm006
+```
+
+    ## # A tibble: 24 x 6
+    ##        country continent  year lifeExp      pop gdpPercap
+    ##         <fctr>    <fctr> <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan      Asia  1952  28.801  8425333  779.4453
+    ##  2 Afghanistan      Asia  1957  30.332  9240934  820.8530
+    ##  3 Afghanistan      Asia  1962  31.997 10267083  853.1007
+    ##  4 Afghanistan      Asia  1967  34.020 11537966  836.1971
+    ##  5 Afghanistan      Asia  1972  36.088 13079460  739.9811
+    ##  6 Afghanistan      Asia  1977  38.438 14880372  786.1134
+    ##  7 Afghanistan      Asia  1982  39.854 12881816  978.0114
+    ##  8 Afghanistan      Asia  1987  40.822 13867957  852.3959
+    ##  9 Afghanistan      Asia  1992  41.674 16317921  649.3414
+    ## 10 Afghanistan      Asia  1997  41.763 22227415  635.3414
+    ## # ... with 14 more rows
+
+OR
+
+``` r
+gapminder %>%
+  filter(country %in% c("Rwanda", "Afghanistan"))  # As discussed in class cm006
+```
+
+    ## # A tibble: 24 x 6
+    ##        country continent  year lifeExp      pop gdpPercap
+    ##         <fctr>    <fctr> <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan      Asia  1952  28.801  8425333  779.4453
+    ##  2 Afghanistan      Asia  1957  30.332  9240934  820.8530
+    ##  3 Afghanistan      Asia  1962  31.997 10267083  853.1007
+    ##  4 Afghanistan      Asia  1967  34.020 11537966  836.1971
+    ##  5 Afghanistan      Asia  1972  36.088 13079460  739.9811
+    ##  6 Afghanistan      Asia  1977  38.438 14880372  786.1134
+    ##  7 Afghanistan      Asia  1982  39.854 12881816  978.0114
+    ##  8 Afghanistan      Asia  1987  40.822 13867957  852.3959
+    ##  9 Afghanistan      Asia  1992  41.674 16317921  649.3414
+    ## 10 Afghanistan      Asia  1997  41.763 22227415  635.3414
+    ## # ... with 14 more rows
+
+Present numerical tables in a more attractive form, such as using knitr::kable().
+
+Presenting the above example using knitr::kable()
+
+``` r
+knitr::kable(filter(gapminder, country == "Rwanda" | country == "Afghanistan"))
+```
+
+| country     | continent |  year|  lifeExp|       pop|  gdpPercap|
+|:------------|:----------|-----:|--------:|---------:|----------:|
+| Afghanistan | Asia      |  1952|   28.801|   8425333|   779.4453|
+| Afghanistan | Asia      |  1957|   30.332|   9240934|   820.8530|
+| Afghanistan | Asia      |  1962|   31.997|  10267083|   853.1007|
+| Afghanistan | Asia      |  1967|   34.020|  11537966|   836.1971|
+| Afghanistan | Asia      |  1972|   36.088|  13079460|   739.9811|
+| Afghanistan | Asia      |  1977|   38.438|  14880372|   786.1134|
+| Afghanistan | Asia      |  1982|   39.854|  12881816|   978.0114|
+| Afghanistan | Asia      |  1987|   40.822|  13867957|   852.3959|
+| Afghanistan | Asia      |  1992|   41.674|  16317921|   649.3414|
+| Afghanistan | Asia      |  1997|   41.763|  22227415|   635.3414|
+| Afghanistan | Asia      |  2002|   42.129|  25268405|   726.7341|
+| Afghanistan | Asia      |  2007|   43.828|  31889923|   974.5803|
+| Rwanda      | Africa    |  1952|   40.000|   2534927|   493.3239|
+| Rwanda      | Africa    |  1957|   41.500|   2822082|   540.2894|
+| Rwanda      | Africa    |  1962|   43.000|   3051242|   597.4731|
+| Rwanda      | Africa    |  1967|   44.100|   3451079|   510.9637|
+| Rwanda      | Africa    |  1972|   44.600|   3992121|   590.5807|
+| Rwanda      | Africa    |  1977|   45.000|   4657072|   670.0806|
+| Rwanda      | Africa    |  1982|   46.218|   5507565|   881.5706|
+| Rwanda      | Africa    |  1987|   44.020|   6349365|   847.9912|
+| Rwanda      | Africa    |  1992|   23.599|   7290203|   737.0686|
+| Rwanda      | Africa    |  1997|   36.087|   7212583|   589.9445|
+| Rwanda      | Africa    |  2002|   43.413|   7852401|   785.6538|
+| Rwanda      | Africa    |  2007|   46.242|   8860588|   863.0885|
