@@ -1,0 +1,46 @@
+---
+title: "hw03_gapminder.Rmd"
+output: github_document
+---
+
+Loading the libraries
+```{r}
+
+library(gapminder)
+library(tidyverse)
+library(knitr)
+```
+
+
+
+Query 1 : Get the maximum and minimum of GDP per capita for all continents
+Solution : 
+```{r}
+minmaxGDP<- gapminder %>%
+  group_by(continent) %>%
+  summarise(max_gdp = max(gdpPercap), min_gdp = min(gdpPercap))
+kable(minmaxGDP)
+
+```
+```{r}
+ggplot(minmaxGDP, aes(x=continent)) +
+  geom_point(aes(y=min_gdp), colour = "red") +
+  geom_point(aes(y=max_gdp), colour = "cyan") +
+  labs(y = "GDP per Cap") 
+
+```
+
+Query 2 : Look at the spread of GDP per capita within the continents.
+Solution :
+
+
+
+```{r}
+spread <- gapminder %>%
+  group_by(country,continent) %>%
+  summarize(gdp_avg=mean(gdpPercap))
+spread <- arrange(spread,continent)
+knitr::kable(head(spread)) 
+ggplot(spread,aes(x=gdp_avg))  + facet_wrap(~ continent) + geom_histogram()
+```
+
