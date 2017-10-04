@@ -1,4 +1,10 @@
 # Welcome to my repository!
+## Homework 3
+
+The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03) 
+
+The R Markdown file can also be found [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03/hw03_gapminder.Rmd) in the  [hw03 folder.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03)
+
 ## Homework 2
 
 The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw02-murthy-janani/tree/master/hw02) 
