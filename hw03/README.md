@@ -1,21 +1,26 @@
-# About Myself
-Hello ,I'm **Janani Murthy**,doing my Masters in Electrical an Computer Engineering.I'm interested in the fields of *Wireless communications* and *Big Data*.This [course](https://github.com/STAT545-UBC) aids in building my knowledge on R programming.
+# Homework 3
 
-That's me!
+## Links to files
 
-![That's me!](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw01/Janani_Murthy.jpg)
+The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw03/hw03_gapminder.Rmd)
 
-Steps that I followed to edit the *README.md* were :
-1. Create a new repo on GitHub
-2. Cloned the repo to local  R repository
-3. Edit the *README.md* file in RStudio
-4. Experimented with R Markdown aspects such as : Bold, Italics, adding a Link and Headers.
-5. Saved the changes made to the *README.md* file
+And the Markdown file with images embedded, [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw03/hw03_gapminder.md)
 
-This is my first experience with Github and R Markdown.The hands-on experience provided by this [course](https://github.com/STAT545-UBC) makes it easier to understand. I'm really excited to explore further on these topics. 
+## Report your process.Reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. What things were hard, even though you saw them in class? What was easy(-ish) even though we haven’t done it in class?
 
-This is my [R markdown document](https://github.com/jmurthy12/STAT545-hw01-murthy-janani/blob/master/hw01_gapminder.md) and my [Rendered Markdown File](https://github.com/jmurthy12/STAT545-hw01-murthy-janani/blob/master/hw01_gapminder.md)
+Compared to the previous 2 assignments ,this assignment was time consuming .
+I did learn a lot on dpylr functions and ggplot in this assignment.
+This [Cheet Sheet](https://slack-files.com/files-pri-safe/T6NV08F0S-F7DT4M90X/dplyr_cheatsheet.pdf?c=1507065096-0c5bc2bc955f2e0e16dba17cc8c3a5270a2679bf) helped a ot in implementing dpylr functions.
 
 
-> "Peace begins with a smile"
-   - Mother Teresa
+
+### Readme file
+Since was done as a part of hw01 and hw02.No problems encountered here, links were easily added!
+
+### R Markdown
+Creating a markdown file was quite easy!
+I did refer to [class notes](http://stat545.com/cm006_tibbles-dplyr-ggplot2.htmls)for ggplot and dplyr functions.
+
+This [link](https://cran.r-project.org/web/packages/gapminder/gapminder.pdf) helped in discovering colors for different countries as well as the syntax to be used in ggplot.
+
+The Help tab/?help was very useful in exploring different function within R.
