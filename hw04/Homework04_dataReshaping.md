@@ -607,4 +607,4 @@ Inner_join %>% filter(country %in% c("Australia","Austria","Belgium","China", "I
 
 #### Create your own cheatsheet patterned after mine but focused on something you care about more than comics
 
-[This]((https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/hw04_Join_Cheetsheet.md)) is my Join Cheetsheet.
+[This](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/hw04_Join_Cheetsheet.md) is my Join Cheetsheet.
