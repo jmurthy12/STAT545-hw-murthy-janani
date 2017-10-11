@@ -1,0 +1,270 @@
+---
+title: "homework04_dataReshaping"
+output: github_document
+---
+
+
+
+
+```{r}
+library(gapminder)
+library(tidyverse)
+library(reshape2)
+```
+
+
+###General data reshaping and relationship to aggregation 
+Activity #1
+
+1.Make you own cheatsheet similar to Tyler Rinker’s minimal guide to tidyr.
+Reshape your data. For simple reshaping, gather() and spread() from tidyr will suffice. Do the thing that it possible / easier now that your data has a new shape.
+
+Solution :
+I would explore the below functions :
+
+* Gather
+
+* Spread
+
+* dcast
+
+I found the examples discussed in class very useful and would use the same as my cheetsheet to tidyr
+
+```{r}
+library(devtools)
+install_github("JoeyBernhardt/singer")
+```
+Now we have the singer dataframes
+contain songs and location
+
+```{r}
+library(singer)
+```
+and then we load into the environement the datasets
+
+```{r}
+data("locations")
+data("songs")
+```
+Gather :
+ 
+ 
+ Gather function creates a longer data rather than a wider data.In the below example we select the columns depicting :
+
+year,artist_hotness,artist_familiarity and duration
+```{r}
+hfd_y <-singer_locations %>% 
+  select(year,artist_hotttnesss,artist_familiarity,duration)
+hfd_y
+```
+
+
+
+```{r}
+hfd_y_long <-hfd_y %>% 
+  gather(key = "Measure",value ="Units", artist_hotttnesss:duration)
+hfd_y_long
+```
+
+
+SPREAD:
+
+We use spread() for wider distribution of data.
+Columns indicate the data/variables that aid in spreading.
+
+
+```{r}
+hfd_y<-singer_locations %>% 
+  select(year,song_id,duration:artist_familiarity) %>% 
+  gather(key ="Measures",value ="My_value",duration:artist_familiarity)
+```
+```{r}
+spread(hfd_y,Measures,My_value,fill=NA,drop = TRUE,sep=NULL)
+```
+
+DCAST :
+
+In this example the function : Dcast (), populates each row with the corresponding mean for particular column variables.
+
+```{r}
+hfd_y_mean<- hfd_y %>% 
+  reshape2::dcast(year ~ Measures,value.var = "My_value",
+                     fun.aggregate = mean,na.rm = TRUE)
+hfd_y_mean
+```
+
+Activity #2
+
+2.Make a tibble with one row per year and columns for life expectancy for two or more countries.
+Use knitr::kable() to make this table look pretty in your rendered homework.
+Take advantage of this new data shape to scatterplot life expectancy for one country against that of another.
+
+Solution:
+
+Steps followed were :
+
+    * Filter() is used on countries to pop-out 3 countries ,i.e.., Japan India and United States
+    * Select() is used to filter out the columns : country, year and lifeExp
+    * Use spread to get country against each year.The value dispalyed within Country indicates the Life Expectancy
+    * ggplot () is used to plot lifeExp of India against Japan 
+    * The scatter plot indicates that Life Expectancy of Japan is better than India
+
+```{r}
+LifeExp <- gapminder %>%
+  filter(country %in% c("Japan", "India", "United States")) %>% 
+  select(country, year, lifeExp) %>% 
+  spread(country, lifeExp)
+
+  knitr::kable(LifeExp,align = "c", format = "markdown", digits = 4)
+```
+
+```{r}
+ggplot(LifeExp)+
+  geom_jitter(aes(x = Japan, y = India), size = 3, colour = "orange") 
+  labs(title = "Life Expectancy of Japan vs. India") +
+  theme_bw()
+```
+
+
+Activity #3
+
+3.Compute some measure of life expectancy (mean? median? min? max?) for all possible combinations of continent and year. Reshape that to have one row per year and one variable for each continent. Or the other way around: one row per continent and one variable per year.
+Use knitr::kable() to make these tables look pretty in your rendered homework.
+Is there a plot that is easier to make with the data in this shape versis the usual form? If so (or you think so), try it! Reflect.
+
+
+Solution :
+
+Steps that I followed were :
+
+    * group_by()is used to filter out variables: Continent and Year
+    * Mean Life Expectancy per year is calculated for each Continent
+    * spread() is used to display mean life expectancy for each continent for particular year
+    * Knitr Kable () is used for creating a table
+
+```{r}
+MeanLifeExpContinent <- gapminder %>% 
+  group_by(continent,year) %>% 
+  summarize(meanlifeExp=mean(lifeExp))
+MeanLifeExpSpread <- MeanLifeExpContinent %>%
+  spread(key = continent,value = meanlifeExp)
+knitr::kable(MeanLifeExpSpread,align = "c", format = "markdown", digits = 4)
+
+
+```
+```{r}
+
+```
+
+Activity #4
+
+4.In Window functions, we formed a tibble with 24 rows: 2 per year, giving the country with both the lowest and highest life expectancy (in Asia). Take that table (or a similar one for all continents) and reshape it so you have one row per year or per year continent combination.
+Solution : 
+
+
+   
+    * Grouped the data by year and continent
+    * Filtered the data to get mean lifeExp country for each continent per year
+    * use spread() so that the continent and meanLE data so as to form columns containing year and different continents
+    * Plot mean life expectancy by year by continent 
+
+ 
+
+```{r}
+continentLifeExp <- gapminder %>%
+  group_by(continent, year) %>% 
+  summarize(meanLE=mean(lifeExp))
+continentLifeExp
+```
+
+
+```{r}
+continentLifeExp %>% 
+  spread(continent, meanLE) %>% 
+   knitr::kable()
+continentLifeExp
+```
+```{r}
+continentLifeExp %>% 
+  spread(continent, meanLE) %>% 
+  ggplot(aes(year)) +
+  geom_point(aes(y=Africa, colour="Africa"))+
+  geom_point(aes(y=Americas, colour="Americas"))+
+  geom_point(aes(y=Asia, colour="Asia"))+
+  geom_point(aes(y=Europe, colour="Europe"))+
+  geom_point(aes(y=Oceania, colour="Oceania"))+
+  labs(y="mean life expectancy", title= "Mean Life Expectancy by Continent")+
+  theme_bw()
+```
+
+
+
+
+###Join, merge, look up
+
+####Create a second data frame, complementary to Gapminder. Join this with (part of) Gapminder using a dplyr join function and make some observations about the process and result. Explore the different types of joins.
+
+Solution:
+
+Created second data frame with Country and its Capital City.
+```{r}
+country_capitals <- data.frame(country=c("Australia","Austria","Belgium","China", "Italy", "Croatia", "Egypt", "Greece", "India"), capital=c("CANBERRA","VIENNA","BRUSSELS","BEIJING","ROME","ZAGREB","CAIRO","ATHENS","NEW DELHI"))
+knitr::kable(country_capitals)
+gapminder
+```
+
+
+##### Left Join
+
+left_join() : Retains the column country in gapminder dataset and appends the capital city(New data) as a new column into the gampminder dataset.
+left_join returns data from the second data frame aswell.Please note Column 7 in the below table (i.e. capital city)
+
+```{r}
+
+Left_Join <-left_join(gapminder,country_capitals ,by = "country")
+Left_Join %>% filter(country %in% c("Australia","Austria","Belgium","China", "Italy", "Croatia", "Egypt", "Greece", "India"))
+
+```
+
+##### Anti Join
+
+anti_join() : Retains the coutries that are present in gapminder dataset but not in the second data set.
+And hence in the below example it only displays 1,596 rows(i.e Gapminder (1704 rows) - Second data set(108 rows))
+anti_join does not contain return any column of the second data set.
+
+```{r}
+Anti_join<-anti_join(gapminder,country_capitals)
+Anti_join
+```
+
+##### Semi Join
+
+Semi_join() : Retains the countries that are common in both gapminder dataset and in the second data set.However,it does not return the column present in second data frame,hence the below table contains 6 columns only.
+
+```{r}
+Semi_join<-semi_join(gapminder,country_capitals)
+Semi_join %>% filter(country %in% c("Australia","Austria","Belgium","China", "Italy", "Croatia", "Egypt", "Greece", "India"))
+```
+
+##### Full Join
+
+Full_join() :Retains the countries from both gapminder and the second data set and appends additional information against each country.Updates unavailable data as NA in the last column(i.e..,column 7)
+
+```{r}
+Full_join <-full_join(gapminder,country_capitals)
+Full_join %>% filter(country %in% c("Australia","Austria","Belgium","China", "Italy", "Croatia", "Egypt", "Greece", "India"))
+```
+
+##### Inner Join
+
+Inner_join() :Retains the countries that are common to both gapminder dataset and the  second data set and also, appends a new column for new information against each country.
+```{r}
+Inner_join <-inner_join(gapminder,country_capitals)
+Inner_join %>% filter(country %in% c("Australia","Austria","Belgium","China", "Italy", "Croatia", "Egypt", "Greece", "India"))
+```
+
+
+####Create your own cheatsheet patterned after mine but focused on something you care about more than comics
+[This]((https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/hw04_Join_Cheetsheet.md)) is my Join Cheetsheet.
+
+

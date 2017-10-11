@@ -1,4 +1,10 @@
 # Welcome to my repository!
+## Homework 4
+
+The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04) 
+
+The R Markdown file can also be found [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/Homework04_dataReshaping.Rmd) in the  [hw04 folder.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04)
+
 ## Homework 3
 
 The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03) 
