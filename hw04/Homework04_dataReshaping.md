@@ -35,9 +35,15 @@ Activity \#1
 
 1.Make you own cheatsheet similar to Tyler Rinker’s minimal guide to tidyr. Reshape your data. For simple reshaping, gather() and spread() from tidyr will suffice. Do the thing that it possible / easier now that your data has a new shape.
 
-Solution : I would explore the below functions : \* Gather \* Spread \* dcast
+Solution : I would explore the below functions :
 
-I found the examples discussed in class very usefula nd would use the same as my cheetsheet to tidyr
+-   Gather
+
+-   Spread
+
+-   dcast
+
+I found the examples discussed in class very useful and would use the same as my cheetsheet to tidyr
 
 ``` r
 library(devtools)
@@ -62,7 +68,7 @@ data("songs")
 
 Gather :
 
-Gather function converts the data frame longer instead of wider.In the below example we select the columns depicting :
+Gather function creates a longer data rather than a wider data.In the below example we select the columns depicting :
 
 year,artist\_hotness,artist\_familiarity and duration
 
@@ -110,7 +116,7 @@ hfd_y_long
 
 SPREAD:
 
-We use spread for wider distribution of data. Columns indicate the data that aids in spreading.
+We use spread() for wider distribution of data. Columns indicate the data/variables that aid in spreading.
 
 ``` r
 hfd_y<-singer_locations %>% 
@@ -228,7 +234,7 @@ Solution:
 
 Steps followed were :
 
-    * Filter() is used on countried to pop-out 3 countries ,i.e.., Japan India and United States
+    * Filter() is used on countries to pop-out 3 countries ,i.e.., Japan India and United States
     * Select() is used to filter out the columns : country, year and lifeExp
     * Use spread to get country against each year.The value dispalyed within Country indicates the Life Expectancy
     * ggplot () is used to plot lifeExp of India against Japan 
@@ -278,7 +284,7 @@ Activity \#3
 
 Solution :
 
-Steps that I followed are :
+Steps that I followed were :
 
     * group_by()is used to filter out variables: Continent and Year
     * Mean Life Expectancy per year is calculated for each Continent
@@ -396,10 +402,6 @@ continentLifeExp %>%
 ```
 
 ![](Homework04_dataReshaping_files/figure-markdown_github-ascii_identifiers/unnamed-chunk-16-1.png)
-
-Activity \#5
-
-6.Previous TA Andrew MacDonald has a nice data manipulation sampler. Make up a similar set of exercises for yourself, in the abstract or (even better) using Gapminder or other data, and solve them. Solution :
 
 ### Join, merge, look up
 
