@@ -397,12 +397,12 @@ ggsave("lifeExpectancyvsPopulationRaster.png", device = "png",plot = FromRecentL
 
 
 
-#![Embedding the plot below ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulation.png)
+![Embedding the plot below ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulation.png)
 
 Plotting Vector Format VS Raster Format
 
-#![Embedding the plot in Vector Form ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulationVector.png)
-#![Embedding the plot in Raster Form ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulationRaster.png)
+![Embedding the plot in Vector Form ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulationVector.png)
+![Embedding the plot in Raster Form ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulationRaster.png)
 
 
 Explicit provision of the plot object p via ggsave(..., plot = p). Show a situation in which this actually matters.
@@ -415,7 +415,7 @@ Example :In the below example Raterm Form.png is saved with the new arguments sp
 ```{r}
 ggsave("lifeExpectancyvsPopulationRaster.png", device = "png",width = 4, height = 4, dpi = 600)
 ```
-#![Embedding the png without "plot=p" specified ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulationRaster.png)
+![Embedding the png without "plot=p" specified ](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw05/lifeExpectancyvsPopulationRaster.png)
 
 
 ###Organise your github
