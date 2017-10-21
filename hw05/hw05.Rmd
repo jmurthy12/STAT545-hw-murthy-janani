@@ -119,21 +119,21 @@ gapminderWithoutOceaniaDropLevels$continent %>%
 
 Solution :
 
-1) Read/Write Operations performed on CSV Files
+- Read/Write Operations performed on CSV Files
 
 ```{r}
 write_csv(gapminderWithoutOceaniaDropLevels, "gapminderWithoutOceaniaDropLevels.csv")
 gapminderWithoutOceaniaDropLevelsReadCSV <- read_csv("gapminderWithoutOceaniaDropLevels.csv")
 ```
 
-2) Read/Write Operations performed on RDS Files
+- Read/Write Operations performed on RDS Files
 
 ```{r}
 saveRDS(gapminderWithoutOceaniaDropLevels,"gapminderWithoutOceaniaDropLevels.rds")
 gapminderWithoutOceaniaDropLevelsReadRDS <- readRDS("gapminderWithoutOceaniaDropLevels.rds")
 ```
 
-3) Read/Write Operations performed on Text Files
+- Read/Write Operations performed on Text Files
 
 ```{r}
 dput(gapminderWithoutOceaniaDropLevels,"gapminderWithoutOceaniaDropLevels.txt")
@@ -201,6 +201,7 @@ Here we arrange the Lifeexpectancy in descending order using desc() within arran
 
 
 After Arrange() :
+
 I'm using the variable "gapminderArrange" because I shall use the same in the next activity to compare arrange with the combination of arrange() and fct_reorder()
 
 ```{r}
@@ -317,6 +318,7 @@ From my [homework2](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/m
 
 Scatter plot between :
 Quantitative variable 1 : Life Expectancy
+
 Quantitative variable 2 : Population
 ```{r}
 IntialLearning<-ggplot(gapminder, 
@@ -457,7 +459,7 @@ gapminderCountryPresidents <- gapminder %>%
   mutate(presidents = fct_recode(country, "Carlo Azeglio Ciampi" = "Italy","Horst Köhler" = "Germany","Akihito" = "Japan","Heinz Fischer" = "Austria","Juan Carlos I" = "Spain","Luiz Inácio Lula da Silva" = "Brazil")) %>% 
   droplevels()
 
-#Change countr from character to factor
+#Change country from character to factor
 gapminderCountryPresidents$country <- as.factor(gapminderCountryPresidents$country)
 knitr::kable(head(gapminderCountryPresidents))
 knitr::kable(tail(gapminderCountryPresidents))
