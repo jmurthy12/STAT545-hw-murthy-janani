@@ -1,0 +1,9 @@
+---
+title: "hw06_data_wrangling_wrap_up"
+output: github_document
+---
+```{r}
+suppressPackageStartupMessages(library(gapminder))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(ggplot2))
+```
