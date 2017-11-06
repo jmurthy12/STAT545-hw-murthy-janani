@@ -1,24 +1,32 @@
 # Welcome to my repository!
 
-## Homework 5
+##Links to my Homework Files are :
+
+## Homework 6 - Data wrangling wrap up
+
+The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw06) 
+
+The R Markdown file can also be found [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw06/hw06_data_wrangling_wrap_up.Rmd) in the  [hw06 folder.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw06)
+
+## Homework 5 - Factor Management
 
 The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw05) 
 
 The R Markdown file can also be found [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw05/hw05.Rmd) in the  [hw05 folder.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw05)
 
-## Homework 4
+## Homework 4 - Joins and Tidy Data
 
 The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04) 
 
 The R Markdown file can also be found [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/Homework04_dataReshaping.Rmd) in the  [hw04 folder.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04)
 
-## Homework 3
+## Homework 3 - gapminder dplyr and ggplots
 
 The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03) 
 
 The R Markdown file can also be found [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03/hw03_gapminder.Rmd) in the  [hw03 folder.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw03)
 
-## Homework 2
+## Homework 2 - Explore gapminder usign dplyr
 
 The Markdown file which is the easiest to read within github can be found [here.](https://github.com/jmurthy12/STAT545-hw02-murthy-janani/tree/master/hw02) 
 
