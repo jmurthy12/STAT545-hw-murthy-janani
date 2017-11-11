@@ -1,9 +1,494 @@
 ---
-title: "hw06_data_wrangling_wrap_up"
+title: "HW06_DataWrangling_WrapUp"
 output: github_document
 ---
+
+Table of Contents
+=================
+ - 1.Writing functions :
+    - Write one (or more) functions that do something useful to pieces of the Gapminder or Singer data. It is logical to think about computing on the mini-data frames corresponding to the data for each specific country, location, year, band, album, … This would pair well with the prompt below about working with a nested data frame, as you could apply your function there.
+    - Make it something you can’t easily do with built-in functions. Make it something that’s not trivial to do with the simple dplyr verbs. The linear regression function presented here is a good starting point. You could generalize that to do quadratic regression (include a squared term) or use robust regression, using MASS::rlm() or robustbase::lmrob().
+
+ - 2.Work with a nested data frame
+
+    - See the split-apply-combine lesson from class.Nest the data by country (and continent).
+Fit a model of life expectancy against year. Possibly quadratic, possibly robust (see above prompt re: function writing).
+    - Use functions for working with fitted models or the broom package to get information out of your linear models.
+    - Use the usual dplyr, tidyr, and ggplot2 workflows to explore, e.g., the estimated cofficients.
+Inspiration for the modelling and downstream inspiration
+    - Find countries with interesting stories. - Sudden, substantial departures from the temporal trend is interesting. How could you operationalize this notion of “interesting”?
+    - Use the residuals to detect countries where your model is a terrible fit. Examples: Are there are 1 or more freakishly large residuals, in an absolute sense or relative to some estimate of background variability? Are there strong patterns in the sign of the residuals? E.g., all pos, then all neg, then pos again.
+    - Fit a regression using ordinary least squares and a robust technique. Determine the difference in estimated parameters under the two approaches. If it is large, consider that country “interesting”.
+Compare a linear and quadratic fit
+
+
 ```{r}
 suppressPackageStartupMessages(library(gapminder))
-suppressPackageStartupMessages(library(tidyverse))
 suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(broom))
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(MASS))
+
 ```
+
+Writing functions 
+===================
+
+Let's choose to work on a mini-data frame of specific country 
+
+```{r}
+select_country <-"Japan"
+countrySelected <- gapminder %>% 
+                  filter( country == select_country) 
+knitr::kable( countrySelected )
+```
+
+
+Reference for "lm" is avaiable [here](http://stat545.com/block012_function-regress-lifeexp-on-year.html)
+
+####Let's apply linear regression,quadractic regression and robust regression on "countrySelected" and plot them
+```{r}
+#Linear Regression
+countrySelectedYearVsLifeExp <- countrySelected %>% 
+  ggplot( aes( x = year , y = lifeExp ) )
+
+countrySelectedYearVsLifeExp + geom_point() + geom_smooth(method = "lm", se = FALSE)
+```
+
+ - [This](http://www.theanalysisfactor.com/r-tutorial-4/) is my reference for Quadractic Model.
+
+ - This [link](https://www.r-bloggers.com/fitting-polynomial-regression-in-r/) on "how to fit a polynomial regression" was useful.
+ 
+```{r}
+#Quadratic Regression
+countrySelectedYearVsLifeExp <- countrySelected %>% 
+  ggplot( aes( x = year , y = lifeExp ) )
+
+countrySelectedYearVsLifeExp + geom_point() + geom_smooth(method = "lm",formula = y ~ x + I( x^2 ) , se = FALSE)
+```
+
+```{r}
+#Robust Linear Regression
+countrySelectedYearVsLifeExp <- countrySelected %>% 
+  ggplot( aes( x = year , y = lifeExp ) )
+
+countrySelectedYearVsLifeExp + geom_point() + geom_smooth(method = "rlm", se = FALSE)
+```
+
+Plotting all 3 regressions results on a single graph.
+```{r}
+
+countrySelectedYearVsLifeExp + geom_point( ) + 
+  geom_smooth( method = "rlm" , aes( colour = "robustlinearRegression" ) , se = FALSE ) +
+  geom_smooth( method = "lm" , aes( colour = "linearRegression" ) ,se = FALSE ) + 
+  geom_smooth( method = "lm" , formula = y ~ x + I( x^2 ) , aes( colour = "quadraticRegression" ), se = FALSE ) +
+  scale_color_manual( NULL, values = c(  "robustlinearRegression" = "green" ,"linearRegression" = "yellow" , "quadraticRegression" = "blue" ) )
+```
+
+From the above plot,it is understood that Linear regression results(Yellow) coincide with the results for Robust Linear Regression(Green).
+
+Let's try to fit the regression on our data similar to this [link](http://stat545.com/block012_function-regress-lifeexp-on-year.html#get-some-code-that-works)
+
+
+```{r}
+#Fit the Quadratic Regression and find the coefficients
+
+quadraticFitOnCountrySelected <- lm( lifeExp ~ I( year - 1952 ) + I( ( year - 1952 )^2 ) , data = countrySelected )
+coef( quadraticFitOnCountrySelected )
+```
+
+Let's write a function for the Quadratic Regression
+```{r}
+quadraticFitFunctionOnCountrySelected <- function( data , offset = 1952 ){
+  quadraticFit <- lm( lifeExp ~ I( year - offset ) + I( ( year - offset )^2 ) , data = data )
+  setNames( coef( quadraticFit ) , c( "intercept" , "slope 1" , "slope 2" ) )
+}
+
+## Let's Test the Function for Robust Linear Regression and Compare the results
+quadraticFitFunctionOnCountrySelected( countrySelected )
+``` 
+Same Results for Quadratic regression are obtained for Intercept and Slope values .
+
+
+```{r}
+#Fit the Robust Linear Regression and find the coefficients
+
+robustFitOnCountrySelected <- rlm( lifeExp ~ I( year - 1952 ) , data = countrySelected )
+coef( robustFitOnCountrySelected )
+```
+
+
+Let's write a function for the Robust Linear Regression
+```{r}
+robustFitFunctionOnCountrySelected <- function( data , offset = 1952 ) {
+  robustFit <- rlm( lifeExp ~ I( year - offset ) , data = data )
+  setNames( coef( robustFit ) , c( "intercept" , "slope" ) )
+}
+
+## Let's Test the Function for Robust Linear Regression and Compare the results
+robustFitFunctionOnCountrySelected( countrySelected )
+```
+Same Results for Robust linear regression are obtained for Intercept and Slope values .
+
+
+```{r}
+#Fit the Linear Regression
+linearFitOncountrySelected <- lm( lifeExp ~ I( year - 1952 ) , data = countrySelected )
+coef( linearFitOncountrySelected )
+```
+
+
+
+
+```{r}
+#Let's write a function for Linear Fit
+select_country <-"Japan"
+countrySelected <- gapminder %>% 
+                  filter( country == select_country) 
+
+linearFitFunctionOncountrySelected <- function( data , offset = 1952 ){
+  linearFit <- lm( lifeExp ~ I( year - offset ) , data = data )
+  setNames( coef( linearFit ) , c( "intercept" , "slope" ) )
+}
+
+## Let's Test the Function for Linear Regression and Compare the results
+
+linearFitFunctionOncountrySelected(countrySelected)
+```
+Same Results for linear regression are obtained for Intercept and Slope values.
+
+
+Work with a nested data frame
+=================================
+
+ - Reference for Nested Data frame,broom->Tidy(),map(), and mutate()  is available [here](http://stat545.com/block024_group-nest-split-map.html)
+
+ - Reference for Broom is available [here](https://github.com/tidyverse/broom)
+
+ - Reference for dplyr::do() is available [here](http://stat545.com/block023_dplyr-do.html)
+
+Question :Nest the data by country (and continent).
+
+Let's create a Nested Dataframe
+
+ - Reference for  Nested dataframe is from[class notes](http://stat545.com/block024_group-nest-split-map.html#general-approach-nesting)
+```{r}
+nestedGapminder <- gapminder %>% 
+  group_by( continent , country ) %>% 
+  nest( )
+nestedGapminder
+```
+The Nested Gapminder Data frame collapses to 142 rows, one per country.
+
+Let's expand the nested dataframe "data" 
+```{r}
+nestedGapminder[[1, "data"]]
+```
+
+Question:Fit a model of life expectancy against year. Possibly quadratic, possibly robust (see above prompt re: function writing).
+
+Solution:
+
+Choose Japan,which is the 67th country in the nested Dataframe and apply Linear Fit
+
+Compare the results to verify the intercept and Slope values.
+```{r}
+linearFitFunctionOncountrySelected( nestedGapminder$data[[67]] )
+```
+The intercept and slope values match the previous results of Linear Regression.
+
+
+Let's map  Linear Fit Function over the nestedGapminder
+Reference for the below sections is from [split-apply-combine lesson from class](http://stat545.com/block024_group-nest-split-map.html#apply-a-function-map-and-mutate)
+
+```{r}
+#Use purrr::map() to apply the fitting function linearFitFunctionOncountrySelected()
+#to the first two elements of nestedGapminder$data.
+map( nestedGapminder$data[1:2] , linearFitFunctionOncountrySelected )
+```
+Scale this up to all countries by using map() and mutate () to the entire nested dataframe
+```{r}
+(nestedGapminderLinearFit <- nestedGapminder %>% 
+  mutate( linearFit = map( data , linearFitFunctionOncountrySelected ) ))
+```
+
+Let's test the above result : Cross Check the regression results for "Japan"
+```{r}
+nestedGapminderLinearFit$linearFit[[67]]
+```
+
+Question : Use functions for working with fitted models or the broom package to get information out of your linear models
+
+Solution:
+
+Let's use functions from broom package to get information out of your linear models.
+```{r}
+## Let's map the tidy function to the entire nested dataframe
+
+(nestedGapminderLinearFit <- nestedGapminderLinearFit %>% 
+  mutate( tidy = map( linearFit , tidy ) ))
+```
+I faced an error on running (only)the above block of code :
+Error : "Error in mutate_impl(.data, dots) : Evaluation error: Index 1 must have length 1."
+However,I don't get the same error on knitting the code .I did try stack overflow to get an idea of this error , but I'm still not able to figure out the rootcause.If someone could help me out ,it would be great!
+
+
+Let's test the above Mapped function for Japan and compare with our earlier results for Japan
+```{r}
+nestedGapminderLinearFit$tidy[[67]]
+```
+Same intercept and slope values are returned .
+
+
+Let's extract some more information of Linear models using broom package's do() function
+```{r}
+
+(leVsYear_LinearFit_Broom <- gapminder %>% 
+  group_by( continent , country ) %>% 
+  do( linearFit = lm( lifeExp ~ I( year - 1952 ) , . ) ))
+
+## Let's use tidy() on the above block of code
+
+knitr::kable( ( leVsYear_LinearFit_Broom %>% 
+                  tidy( linearFit ) ) %>% 
+                tail( ) )
+```
+
+
+Let's use unnest() function to display the tidy information corresponding to it's country
+```{r}
+#glue the results back together
+knitr::kable( ( nestedGapminderLinearFitUnnest <- nestedGapminderLinearFit %>% 
+                  dplyr::select(  country , tidy ) %>% 
+                  unnest( tidy ) )%>% 
+                tail( ) )
+```
+
+ - Question :  Use the usual dplyr, tidyr, and ggplot2 workflows to explore, e.g., the estimated cofficients.
+ 
+ Solution :
+ 
+```{r}
+knitr::kable( ( nestedGapminderLinearFitUnnestExplore <- nestedGapminderLinearFitUnnest %>% 
+                  dplyr::select( country:x ) %>% 
+                  spread( key = "names" , value = "x" ) ) %>% 
+                tail( ) )
+```
+
+ Let's fit a model of life expectancy against year(Function) on the Nested dataframe using Robust Regression 
+
+```{r}
+select_country <-"Japan"
+countrySelected <- gapminder %>% 
+                  filter( country == select_country) 
+
+# Let's write a function for the Robust Linear Regression
+robustFitFunctionOnCountrySelected <- function( data , offset = 1952 ) {
+  robustFit <- rlm( lifeExp ~ I( year - offset ) , data = data )
+  setNames( coef( robustFit ) , c( "intercept" , "slope" ) )
+}
+
+## Let's Test the Function for Robust Linear Regression and Compare the results
+robustFitFunctionOnCountrySelected( countrySelected )
+```
+```{r}
+robustFitFunctionOnCountrySelected( nestedGapminder$data[[67]] )
+```
+ 
+ Scale this up to all countries by using map() and mutate () to the entire nested dataframe
+```{r}
+(nestedGapminderRobustFit <- nestedGapminder %>% 
+  mutate( robustFit = map( data , robustFitFunctionOnCountrySelected ) ))
+```
+
+
+```{r}
+#Let's test the entire nested dataframe for Japan
+nestedGapminderRobustFit$robustFit[[67]]
+```
+ 
+Let's apply tidy() to this nested Dataframe
+```{r}
+(nestedGapminderRobustFit <- nestedGapminderRobustFit %>% 
+  mutate( tidy = map( robustFit , tidy ) ) )
+```
+
+Let's test for Japan after tidying the entire nested dataframe
+
+```{r}
+nestedGapminderRobustFit$tidy[[67]]
+```
+
+Let's use unnest() function to display the tidy information corresponding to it's country
+
+```{r}
+#glue the results back together
+knitr::kable( ( nestedGapminderRobustFitUnnest<- nestedGapminderRobustFit %>% 
+                  dplyr::select( country , tidy ) %>% 
+                  unnest( tidy ) ) %>% 
+                tail( ) )
+```
+ 
+ Question : Using the usual dplyr, tidyr, and ggplot2 workflows to explore, e.g., the estimated co-efficients.
+ 
+ Solution :
+ 
+```{r}
+
+knitr::kable( ( nestedGapminderRobustFitUnnestExplore <- nestedGapminderRobustFitUnnest %>% 
+                  dplyr::select( country:x ) %>% 
+                  spread( key = "names" , value = "x" ) ) %>% 
+                tail( ) )
+```
+ 
+ Let's extract some more information using broom package's do() function
+ 
+```{r}
+
+(leVsYear_RobustFit_Broom <- gapminder %>% 
+  group_by( country ) %>% 
+  do( Robustfit = rlm( lifeExp ~ I( year - 1952 ) ,data= . ) ))
+```
+
+ Let's try broom's tidy()
+ 
+```{r}
+knitr::kable( ( leVsYear_RobustFit_Broom %>% 
+                  tidy( Robustfit ) ) %>% 
+                head( ) )
+```
+
+
+Let's fit a model of life expectancy against year(Function) on the Nested dataframe using Quadratic Regression 
+
+```{r}
+#Test and Compare with the results obtained earlier for Quadratic regression
+quadraticFitFunctionOnCountrySelected( nestedGapminder$data[[67]] )
+```
+
+Use purrr::map() to apply the fitting function: quadraticFitFunctionOnCountrySelected() to the first five elements of nested_gap$data.
+
+```{r}
+map( nestedGapminder$data[1:5] , quadraticFitFunctionOnCountrySelected )
+```
+
+
+Scale this up to all countries by using map() and mutate () to the entire nested dataframe
+
+```{r}
+(nestedGapminderQuadraticFit <- nestedGapminder %>% 
+  mutate( quadraticFit = map( data , quadraticFitFunctionOnCountrySelected ) ) )
+```
+
+
+Let's test for Japan on this nested data frame
+
+```{r}
+nestedGapminderQuadraticFit$quadraticFit[[67]]
+```
+
+Let's apply tidy() to this nested Dataframe
+
+```{r}
+tidy( nestedGapminderQuadraticFit$quadraticFit[[67]] )
+(nestedGapminderQuadraticFit <- nestedGapminderQuadraticFit %>% 
+  mutate( tidy = map( quadraticFit , tidy ) ))
+```
+
+Let's use unnest() function to display the tidy information corresponding to it's country
+
+```{r}
+knitr::kable( ( nestedGapminderQuadraticFitUnnest <- nestedGapminderQuadraticFit %>% 
+                  dplyr::select( country , tidy ) %>% 
+                  unnest( tidy ) ) %>% 
+                tail( ) )
+```
+
+- Question : Using the usual dplyr, tidyr, and ggplot2 workflows to explore, e.g., the estimated cofficients.
+
+Solution : Using Quadratic Fit
+
+```{r}
+knitr::kable( ( nestedGapminderQuadraticFitUnnestExplore <- nestedGapminderQuadraticFitUnnest %>% 
+                  dplyr::select( country:x ) %>% 
+                  spread( key = "names" , value = "x" ) ) %>% 
+                tail( ) )
+```
+
+Let's extract some more information using broom package's do() function
+
+```{r}
+leVsYear_QuadraticFit_Broom <- gapminder %>% 
+  group_by( country ) %>% 
+  do( quadraticFit = lm( lifeExp ~ I( year - 1952 ) + I( ( year - 1952 )^2 ) ,data=. ) ) %>% 
+  print(n=5)
+```
+ 
+ Let's try broom's tidy()
+ 
+```{r}
+knitr::kable( ( leVsYear_QuadraticFit_Broom %>% 
+                  tidy( quadraticFit ) ) %>% 
+                head( ) )
+```
+
+- Question :  Fit a regression using ordinary least squares and a robust technique. Determine the difference in estimated parameters under the two approaches. If it is large, consider that country “interesting”
+
+Solution :
+
+Steps followed were :
+
+ - Find the difference in estimated parameters between Linear and Robust regressions 
+ - Do a right join by 'country' on the two regression estimates 
+ - Use filter() and Intercept Difference to narrow down the interesting countries
+ 
+```{r}
+## Find the difference in parameters between Linear and Robust regressions 
+
+## Do a right join by 'country' on the two regression estimates  
+( leVsYear_Linear_Robust <- right_join( nestedGapminderLinearFitUnnestExplore , 
+                                             nestedGapminderRobustFitUnnestExplore , 
+                                             by = c( "country" ) 
+                                             ) ) 
+str(leVsYear_Linear_Robust)
+```
+
+
+
+Find the difference in estimated parameters under the two approaches -> Linear and Robust Regression.
+```{r}
+
+Diff_leVsYear_Linear_Robust <- leVsYear_Linear_Robust %>% 
+  mutate( slope_diff = (slope.x - slope.y ) ,intercept_diff = (intercept.x - intercept.y ) ) %>%  
+  dplyr::select( country ,slope_diff, intercept_diff )
+str(Diff_leVsYear_Linear_Robust)
+```
+
+
+Use filter() and Intercept Difference to narrow down the interesting countries
+```{r}
+knitr::kable( interestingCountries <- Diff_leVsYear_Linear_Robust %>% 
+                filter( ( intercept_diff > 0.42 ) | ( intercept_diff < -1.42 ) ) ) 
+```
+
+Let's semi_join() by 'country' on 'gapminder' and 'interestingcountries'
+```{r}
+( interestingCountries <-  semi_join( gapminder ,interestingCountries ,by = "country" ) ) 
+```
+
+```{r}
+interestingCountries <- interestingCountries %>% 
+  ggplot( aes( x = year , y = lifeExp ) )
+
+interestingCountries + geom_point( ) + 
+  facet_wrap( ~ country ) + 
+  geom_smooth( method = "rlm" , aes( colour = "rlm" ) , se = FALSE ) +
+  geom_smooth( method = "lm" , aes( colour = "lm" ) , se = FALSE )
+
+```
+
+- Rwanda's dip in Life Expectency in 1992 is due to the [Rwandan genocide](https://en.wikipedia.org/wiki/Rwandan_genocide)
+
+-  Cambodia's dip in Life Expectency in 1977 is due to the [Cambodian genocide](https://en.wikipedia.org/wiki/Cambodian_genocide)
+
+- HIV/AIDS epidemic caused a decrease in LifeExpectency in countries such as [Swaziland](https://en.wikipedia.org/wiki/HIV/AIDS_in_Swaziland),[South Africa](https://en.wikipedia.org/wiki/HIV/AIDS_in_South_Africa) and [Lestho](https://en.wikipedia.org/wiki/HIV/AIDS_in_Lesotho)
