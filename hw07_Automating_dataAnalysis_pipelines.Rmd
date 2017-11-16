@@ -1,0 +1,4 @@
+---
+title: "Automating data analysis pipelines"
+output: html_document
+---
