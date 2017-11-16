@@ -1,42 +1,42 @@
-#Links to Files
+# Links to Files
 
-#Homework 7 - Automating Data-analysis Pipelines
+# Homework 7 - Automating Data-analysis Pipelines
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw07/hw_07-automating-data-analysis-pipeline.rmd)
 
 And the Markdown file is available  [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw07/hw_07-automating-data-analysis-pipeline.md)
 
-#Homework 6- Data wrangling wrap up
+# Homework 6- Data wrangling wrap up
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw06/hw06_data_wrangling_wrap_up.Rmd)
 
 And the Markdown file is available  [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw06/hw06_data_wrangling_wrap_up.md)
 
-#Homework 5
+# Homework 5
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw05/Hw05.Rmd)
 
 And the Markdown file is available  [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw05/hw05.md)
 
-#Homework 4
+# Homework 4
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/Homework04_dataReshaping.Rmd)
 
 And the Markdown file with images embedded, [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw04/Homework04_dataReshaping.md)
 
-#Homework 3
+# Homework 3
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw03/hw03_gapminder.Rmd)
 
 And the Markdown file with images embedded, [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw03/hw03_gapminder.md)
 
-#Homework 2
+# Homework 2
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw02/hw02_gapminder.Rmd)
 
 And the Markdown file with images embedded, [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw02/hw02_gapminder.md)
 
-#Homework 1
+# Homework 1
 
 # About Myself
 Hello ,I'm **Janani Murthy**,doing my Masters in Electrical an Computer Engineering.I'm interested in the fields of *Wireless communications* and *Big Data*.This [course](https://github.com/STAT545-UBC) aids in building my knowledge on R programming.
