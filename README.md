@@ -1,5 +1,15 @@
 # Links to Files
 
+# Homework 8 - R Shiny App
+
+	- Link to [ui.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/ui.R)
+	
+	- Link to [server.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/server.R)
+	 
+	- Link to [app.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/app.R)
+	
+	- My App is deployed [here](https://jananishiny.shinyapps.io/RShinyApp/)
+
 # Homework 7 - Automating Data-analysis Pipelines
 
 The R Markdown file can be found [here.](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw07/hw_07-automating-data-analysis-pipeline.rmd)

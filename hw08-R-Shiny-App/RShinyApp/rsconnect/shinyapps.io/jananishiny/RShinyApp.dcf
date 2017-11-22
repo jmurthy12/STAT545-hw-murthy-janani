@@ -1,0 +1,12 @@
+name: RShinyApp
+title: RShinyApp
+username:
+account: jananishiny
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 238103
+bundleId: 1089621
+url: https://jananishiny.shinyapps.io/RShinyApp/
+when: 1511326763.83428
+asMultiple: FALSE
+asStatic: FALSE
