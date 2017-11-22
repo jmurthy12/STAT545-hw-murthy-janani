@@ -2,13 +2,13 @@
 
 ### Links to :
 
-	- Link to [ui.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/ui.R)
+- Link to [ui.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/ui.R)
 	
-	- Link to [server.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/server.R)
+- Link to [server.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/server.R)
 	 
-	- Link to [app.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/app.R)
+- Link to [app.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/app.R)
 	
-	- My App is deployed [here](https://jananishiny.shinyapps.io/RShinyApp/)
+- My App is deployed [here](https://jananishiny.shinyapps.io/RShinyApp/)
 
 
 ### Report
