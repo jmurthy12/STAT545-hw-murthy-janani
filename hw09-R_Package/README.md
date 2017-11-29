@@ -38,7 +38,10 @@ Extensions made to Jenny Bryan's foofactors are :
 ### Links to references.
 
  - From STAT 545 Class Notes :
- 		- [cm 109 and cm 110](http://stat545.com/cm109-110-notes_and_exercises.html)
- 		- [Part 2](http://stat545.com/block011_write-your-own-function-02.html)
- 		- [Part 3](http://stat545.com/block011_write-your-own-function-03.html)
+ 	- [cm 109 and cm 110](http://stat545.com/cm109-110-notes_and_exercises.html)
+ 		
+ 	- [Part 2](http://stat545.com/block011_write-your-own-function-02.html)
+ 		
+ 	- [Part 3](http://stat545.com/block011_write-your-own-function-03.html)
+ 		
  - [Tutorial by Jenny Bryan](http://stat545.com/packages06_foofactors-package.html)
