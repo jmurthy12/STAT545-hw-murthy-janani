@@ -1,5 +1,18 @@
 # Links to Files
 
+# Homework 9 - R Package
+
+### Links to :
+
+- Foofactors R Package is [here](https://github.com/jmurthy12/foofactors)
+
+- README is [here](https://github.com/jmurthy12/foofactors/blob/master/README.Rmd)
+
+- Vignettes is [here](https://github.com/jmurthy12/foofactors/tree/master/vignettes)
+
+- Package can be installed using devtools::install_github("jmurthy12/foofactors")
+
+
 # Homework 8 - R Shiny App
 
 	- Link to [ui.R](https://github.com/jmurthy12/STAT545-hw-murthy-janani/tree/master/hw08-R-Shiny-App/RShinyApp/ui.R)
