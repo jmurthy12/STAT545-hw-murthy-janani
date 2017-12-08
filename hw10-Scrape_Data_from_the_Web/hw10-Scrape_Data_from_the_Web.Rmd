@@ -1,0 +1,162 @@
+---
+title: "hw10-Scrape_Data_from_the_Web"
+output: github_document
+---
+
+## Task : Make API queries “by hand” using httr
+
+```{r}
+suppressPackageStartupMessages(library(tidyverse))
+suppressPackageStartupMessages(library(jsonlite))
+suppressPackageStartupMessages(library(purrr))
+suppressPackageStartupMessages(library(tibble))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(forcats))
+suppressPackageStartupMessages(library(glue))
+suppressPackageStartupMessages(library(httr))
+suppressPackageStartupMessages(library(repurrrsive))
+suppressPackageStartupMessages(library(listviewer))
+suppressPackageStartupMessages(library(glue))
+```
+
+
+Below code is from Jenny's Git :
+```{r}
+## determines number of pages implied by link header in httr response
+n_pages <- . %>%
+  headers() %>%
+  .[["link"]] %>%
+  str_split(",") %>%
+  .[[1]] %>%
+  str_subset('rel=\"last\"') %>%
+  str_match("\\?page=([0-9]+)") %>%
+  .[ , 2, drop = TRUE] %>%
+  as.integer()
+```
+
+Below code is from Jenny's Git :
+```{r}
+## books
+## how many books? = # of pages at pageSize = 1
+resp <- GET("http://www.anapioficeandfire.com/api/books?pageSize=1")
+(n_books <- resp %>% n_pages())
+## 12 books
+
+## characters
+resp <- GET("http://www.anapioficeandfire.com/api/characters?pageSize=1")
+(n_characters <- resp %>% n_pages())
+## 2134 characters?!?
+
+## houses
+resp <- GET("http://www.anapioficeandfire.com/api/houses?pageSize=1")
+(n_houses <- resp %>% n_pages())
+## 444 houses?!?
+```
+
+So now we know that there are :
+
+1) 12 Books
+
+2) 2134 characters ,and,
+
+3) 444 houses.
+
+###Get multiple items via the API (i.e. an endpoint that returns multiple items at once) vs. use an iterative framework in R.
+
+My reference for the below code on scrapping data is from [here](https://cran.r-project.org/web/packages/jsonlite/vignettes/json-paging.html)
+
+Let's get the characters from the API
+```{r}
+my_url <- "http://www.anapioficeandfire.com/api/characters/"
+characters <- list()
+
+```
+### Traverse pages
+```{r}
+for(i in 1:72){
+  mydata <- GET(paste0(my_url, "?page=", i, '&pageSize=30'))
+  characters[[i]] <- content(mydata, as='parsed')
+}
+
+characters[[1]][[12]]
+```
+
+
+Similarly,Let's get books from the API
+
+```{r}
+my_url <- "http://www.anapioficeandfire.com/api/books/"
+books <- list()
+
+### Traverse pages
+for(i in 1:72){
+  mydata <- GET(paste0(my_url, "?page=", i, '&pageSize=30'))
+  books[[i]] <- content(mydata, as='parsed')
+}
+
+
+#Let's test this for book name : "A Knight of the Seven Kingdoms"
+books[[1]][[12]]
+```
+
+
+
+Similarly,Let's get the houses from the API
+```{r}
+my_url <- "http://www.anapioficeandfire.com/api/houses/"
+houses <- list()
+
+##Traverse pages
+for(i in 1:14){
+  mydata <- GET(paste0(my_url, "?page=", i, '&pageSize=30'))
+  houses[[i]] <- content(mydata, as='parsed')
+}
+
+#Let's read the data for house name : "House Baelish of Harrenhal"
+houses[[1]][[10]]
+```
+
+
+
+### Scraping data from OMDB API
+
+I requested for API key = e1abcd4f
+
+As discussed in class : Create a function to query movie 
+```{r}
+get_movie_TY <- function(title,year){
+  
+  query_string <- glue("http://www.omdbapi.com/?t={title}&y={year}&APIkey=e1abcd4f")
+  movie_result <-GET(query_string)
+  movie_content <- as.data.frame(content(movie_result))
+  return(movie_content)
+  
+}
+
+```
+
+```{r}
+babe_df <- get_movie_TY("babe","1995")
+knitr::kable(babe_df)
+```
+
+
+```{r}
+titanic_df <- get_movie_TY("Titanic","1997")
+knitr::kable(titanic_df)
+```
+
+Let's explore using JSON
+
+```{r}
+GuardiansOfGalaxy <- GET("http://www.omdbapi.com/?i=tt3896198&apikey=e1abcd4f")
+GuardiansOfGalaxy$status_code
+```
+
+
+
+```{r}
+GuardiansOfGalaxy$headers
+```
+
+

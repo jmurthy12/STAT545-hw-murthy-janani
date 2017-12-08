@@ -1,5 +1,17 @@
 # Links to Files
 
+# Homework 10 - Scrape Data from Web
+
+Data set :
+ - [Anapioficeandfire](https://www.anapioficeandfire.com/)
+ - [OMDB](http://www.omdbapi.com)
+
+### Links to :
+
+- README is [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw10-Scrape_Data_from_the_Web/README.md)
+
+- Markdown file for Homework 10 is [here](https://github.com/jmurthy12/STAT545-hw-murthy-janani/blob/master/hw10-Scrape_Data_from_the_Web/hw10-Scrape_Data_from_the_Web.md)
+
 # Homework 9 - R Package
 
 ### Links to :
